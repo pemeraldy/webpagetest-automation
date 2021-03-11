@@ -1,0 +1,15 @@
+{
+  "name": "lighthouseautomate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Peter Olu",
+  "license": "MIT",
+  "devDependencies": {
+    "lighthouse": "^7.2.0"
+  },
+  "dependencies": {
+    "html-pdf": "^2.2.0",
+    "html-pdf-node": "^1.0.7",
+    "puppeteer": "^8.0.0"
+  }
+}
