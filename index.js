@@ -55,7 +55,8 @@ async function generatePDF(url) {
     waitUntil: 'domcontentloaded'
   });
   // let headers = await page.$$('.lh-audit__header');
-  await page.click('.lh-audit__header')
+  // await page.click('')
+  await page.$$eval('.lh-audit__header', headers => headers.forEach(header => header.click()))
 
   // headers.forEach(async (header) => await page.click(`${header}`));
   await page.emulateMediaType('screen');
