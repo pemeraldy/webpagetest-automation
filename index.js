@@ -54,13 +54,9 @@ async function generatePDF(url) {
     waitLoad: true,
     waitUntil: 'domcontentloaded'
   });
-  // let headers = await page.$$('.lh-audit__header');
-  // await page.click('')
   await page.$$eval('.lh-audit__header', headers => headers.forEach(header => header.click()))
-
-  // headers.forEach(async (header) => await page.click(`${header}`));
   await page.emulateMediaType('screen');
-  // await page.pdf({ path: 'page.pdf' });
+  // await page.pdf({ path: `${fileName}.pdf` });
   await page.screenshot({ path: `./${fileName}.png`, fullPage: true });
   await browser.close();
 }
