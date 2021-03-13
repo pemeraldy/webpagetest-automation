@@ -44,7 +44,7 @@ async function audit(url) {
 }
 
 async function generatePDF(url) {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
   const fileName = getFileName(url)
   const html = fs.readFileSync(`${fileName}.html`, 'utf-8');
@@ -54,7 +54,12 @@ async function generatePDF(url) {
     waitLoad: true,
     waitUntil: 'domcontentloaded'
   });
+  // let headers = await page.$$('.lh-audit__header');
+  await page.click('.lh-audit__header')
+
+  // headers.forEach(async (header) => await page.click(`${header}`));
   await page.emulateMediaType('screen');
+  // await page.pdf({ path: 'page.pdf' });
   await page.screenshot({ path: `./${fileName}.png`, fullPage: true });
   await browser.close();
 }
