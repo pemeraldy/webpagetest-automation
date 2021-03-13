@@ -13,10 +13,16 @@ async function run() {
   const [url] = process.argv.slice(2)
   if (!url) {
     console.log(`Please type a url to audit.`)
-    process.exit(1)
+    process.exit(1);
   } else {
-    await audit(url)
-    await generatePDF(url)
+    try {
+      await audit(url);
+      await generatePDF(url);
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+      // await browser.close();
+    }
   }
 }
 
@@ -31,11 +37,11 @@ function getFileName(url) {
 
 async function audit(url) {
   const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless'] });
-  const options = { logLevel: 'info', output: 'html', onlyCategories: ['performance'], port: chrome.port };
+  const options = { logLevel: 'info', output: 'html', onlyCategories: ['performance', 'accessibility', 'seo'], port: chrome.port };
   const runnerResult = await lighthouse(url, options);
 
   const reportHtml = runnerResult.report;
-  fs.writeFileSync(`${getFileName(url)}.html`, reportHtml, { encoding: 'utf-8' });
+  fs.writeFileSync(`${getFileName(url).replace('/', '')}.html`, reportHtml, { encoding: 'utf-8' });
   console.log('Report is done for', runnerResult.lhr.finalUrl);
   console.log('Performance score was', runnerResult.lhr.categories.performance.score * 100);
 
